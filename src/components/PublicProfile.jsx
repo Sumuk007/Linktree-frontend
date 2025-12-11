@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import ThemeToggle from './ThemeToggle';
 
@@ -54,6 +54,25 @@ function PublicProfile() {
       <ThemeToggle />
       
       <div className="max-w-2xl mx-auto">
+        {/* Navigation */}
+        <div className="mb-6 flex justify-between items-center">
+          <Link
+            to="/profiles"
+            className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            All Profiles
+          </Link>
+          <Link
+            to={`/edit/${slug}`}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+          >
+            Edit Profile
+          </Link>
+        </div>
+
         {/* Profile Header */}
         <div className="text-center mb-8">
           {profile.avatar_url && (
