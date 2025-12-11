@@ -154,7 +154,7 @@ function ProfileEditor() {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-gray-900">
       <ThemeToggle />
       
       <div className="max-w-3xl mx-auto">

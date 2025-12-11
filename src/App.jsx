@@ -5,14 +5,12 @@ import AllProfiles from './components/AllProfiles';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-      <Routes>
-        <Route path="/" element={<ProfileEditor />} />
-        <Route path="/profiles" element={<AllProfiles />} />
-        <Route path="/edit/:slug" element={<ProfileEditor />} />
-        <Route path="/u/:slug" element={<PublicProfile />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<ProfileEditor />} />
+      <Route path="/profiles" element={<AllProfiles />} />
+      <Route path="/edit/:slug" element={<ProfileEditor />} />
+      <Route path="/u/:slug" element={<PublicProfile />} />
+    </Routes>
   );
 }
 

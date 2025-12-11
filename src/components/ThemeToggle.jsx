@@ -2,20 +2,22 @@ import { useState, useEffect } from 'react';
 
 function ThemeToggle() {
   const [darkMode, setDarkMode] = useState(() => {
-    // Initialize from system preference only
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
   useEffect(() => {
-    // Apply theme on mount and when darkMode changes
+    const html = document.documentElement;
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      html.classList.add('dark');
+      html.style.colorScheme = 'dark';
     } else {
-      document.documentElement.classList.remove('dark');
+      html.classList.remove('dark');
+      html.style.colorScheme = 'light';
     }
   }, [darkMode]);
 
   const toggleTheme = () => {
+    console.log('Theme toggled:', !darkMode);
     setDarkMode(prev => !prev);
   };
 

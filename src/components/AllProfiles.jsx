@@ -27,7 +27,7 @@ function AllProfiles() {
 
   if (loading) {
     return (
-      <div className="min-h-screen py-12 px-4">
+      <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-gray-900">
         <ThemeToggle />
         <div className="flex items-center justify-center">
           <div className="text-gray-600 dark:text-gray-400">Loading profiles...</div>
@@ -38,7 +38,7 @@ function AllProfiles() {
 
   if (error) {
     return (
-      <div className="min-h-screen py-12 px-4">
+      <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-gray-900">
         <ThemeToggle />
         <div className="flex items-center justify-center">
           <div className="text-center">
@@ -51,7 +51,7 @@ function AllProfiles() {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-gray-900">
       <ThemeToggle />
       
       <div className="max-w-4xl mx-auto">
