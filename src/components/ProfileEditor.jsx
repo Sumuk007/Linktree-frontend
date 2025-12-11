@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import ThemeToggle from './ThemeToggle';
 
@@ -23,6 +23,8 @@ function ProfileEditor() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [createdSlug, setCreatedSlug] = useState(null);
+  const [searchSlug, setSearchSlug] = useState('');
 
   useEffect(() => {
     if (urlSlug) {
@@ -136,10 +138,7 @@ function ProfileEditor() {
           links: validLinks,
         });
         setSuccess(true);
-        // Navigate to edit mode
-        setTimeout(() => {
-          navigate(`/u/${formData.slug}`);
-        }, 1500);
+        setCreatedSlug(formData.slug);
       }
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to save profile');
@@ -148,11 +147,55 @@ function ProfileEditor() {
     }
   };
 
+  const handleViewProfile = () => {
+    if (searchSlug) {
+      navigate(`/u/${searchSlug}`);
+    }
+  };
+
   return (
     <div className="min-h-screen py-12 px-4">
       <ThemeToggle />
       
       <div className="max-w-3xl mx-auto">
+        {/* Navigation */}
+        <div className="mb-6">
+          <Link
+            to="/profiles"
+            className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            View All Profiles
+          </Link>
+        </div>
+        {/* Search/View Profile Section */}
+        {!isEdit && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+              View Existing Profile
+            </h2>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={searchSlug}
+                onChange={(e) => setSearchSlug(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleViewProfile()}
+                placeholder="Enter profile slug"
+                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              />
+              <button
+                onClick={handleViewProfile}
+                disabled={!searchSlug}
+                className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50"
+              >
+                View
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
             {isEdit ? 'Edit Profile' : 'Create Profile'}
@@ -166,7 +209,23 @@ function ProfileEditor() {
 
           {success && (
             <div className="mb-4 p-4 bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-200 rounded">
-              Profile saved successfully!
+              <p className="font-semibold mb-2">Profile saved successfully!</p>
+              {createdSlug && (
+                <div className="flex gap-2 mt-2">
+                  <Link
+                    to={`/u/${createdSlug}`}
+                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors inline-block"
+                  >
+                    View Your Profile
+                  </Link>
+                  <Link
+                    to={`/edit/${createdSlug}`}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors inline-block"
+                  >
+                    Edit Profile
+                  </Link>
+                </div>
+              )}
             </div>
           )}
 
@@ -332,14 +391,12 @@ function ProfileEditor() {
               </button>
               
               {isEdit && (
-                <a
-                  href={`/u/${formData.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="py-3 px-6 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium text-center"
+                <Link
+                  to={`/u/${formData.slug}`}
+                  className="py-3 px-6 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium text-center"
                 >
                   View Profile
-                </a>
+                </Link>
               )}
             </div>
           </form>
